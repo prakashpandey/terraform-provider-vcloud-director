@@ -46,7 +46,7 @@ variable "OVA_PATH" {
 
 
 resource "vcloud-director_org" "source_org" {
-        name    = "pcp_5555"
+        name    = "4444"
         full_name = "oo"
         #description = "oo"
         is_enabled = true
