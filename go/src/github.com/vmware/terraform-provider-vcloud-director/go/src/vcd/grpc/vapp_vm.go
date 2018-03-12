@@ -30,6 +30,14 @@ type VappVmProvider interface {
 	Read(lc proto.ReadVappVmInfo) (*proto.ReadVappVmResult, error)
 
 	Update(lc proto.UpdateVappVmInfo) (*proto.UpdateVappVmResult, error)
+
+	PowerOn(lc proto.PowerOnVappVmInfo) (*proto.PowerOnVappVmResult, error)
+
+	PowerOff(lc proto.PowerOffVappVmInfo) (*proto.PowerOffVappVmResult, error)
+
+	ModifyCPU(lc proto.ModifyVappVmCPUInfo) (*proto.ModifyVappVmCPUResult, error)
+
+	ModifyMemory(lc proto.ModifyVappVmMemoryInfo) (*proto.ModifyVappVmMemoryResult, error)
 }
 
 // This is the implementation of plugin.Plugin so we can serve/consume this.
@@ -73,10 +81,12 @@ func (m *VappVmGRPCClient) CreateFromCatalog(lc proto.CreateVappVmInfo) (*proto.
 	result, err := m.client.CreateFromCatalog(context.Background(), &lc)
 	return result, err
 }
+
 func (m *VappVmGRPCClient) Create(lc proto.CreateVappVmInfo) (*proto.CreateVappVmResult, error) {
 	result, err := m.client.Create(context.Background(), &lc)
 	return result, err
 }
+
 func (m *VappVmGRPCClient) Delete(lc proto.DeleteVappVmInfo) (*proto.DeleteVappVmResult, error) {
 	result, err := m.client.Delete(context.Background(), &lc)
 	return result, err
@@ -88,6 +98,26 @@ func (m *VappVmGRPCClient) Read(lc proto.ReadVappVmInfo) (*proto.ReadVappVmResul
 
 func (m *VappVmGRPCClient) Update(lc proto.UpdateVappVmInfo) (*proto.UpdateVappVmResult, error) {
 	result, err := m.client.Update(context.Background(), &lc)
+	return result, err
+}
+
+func (m *VappVmGRPCClient) PowerOn(lc proto.PowerOnVappVmInfo) (*proto.PowerOnVappVmResult, error) {
+	result, err := m.client.PowerOn(context.Background(), &lc)
+	return result, err
+}
+
+func (m *VappVmGRPCClient) PowerOff(lc proto.PowerOffVappVmInfo) (*proto.PowerOffVappVmResult, error) {
+	result, err := m.client.PowerOff(context.Background(), &lc)
+	return result, err
+}
+
+func (m *VappVmGRPCClient) ModifyCPU(lc proto.ModifyVappVmCPUInfo) (*proto.ModifyVappVmCPUResult, error) {
+	result, err := m.client.ModifyCPU(context.Background(), &lc)
+	return result, err
+}
+
+func (m *VappVmGRPCClient) ModifyMemory(lc proto.ModifyVappVmMemoryInfo) (*proto.ModifyVappVmMemoryResult, error) {
+	result, err := m.client.ModifyMemory(context.Background(), &lc)
 	return result, err
 }
 
@@ -117,6 +147,30 @@ func (m *VappVmGRPCServer) Update(
 	ctx context.Context,
 	req *proto.UpdateVappVmInfo) (*proto.UpdateVappVmResult, error) {
 	return &proto.UpdateVappVmResult{}, nil
+}
+
+func (m *VappVmGRPCServer) PowerOn(
+	ctx context.Context,
+	req *proto.PowerOnVappVmInfo) (*proto.PowerOnVappVmResult, error) {
+	return &proto.PowerOnVappVmResult{}, nil
+}
+
+func (m *VappVmGRPCServer) PowerOff(
+	ctx context.Context,
+	req *proto.PowerOffVappVmInfo) (*proto.PowerOffVappVmResult, error) {
+	return &proto.PowerOffVappVmResult{}, nil
+}
+
+func (m *VappVmGRPCServer) ModifyCPU(
+	ctx context.Context,
+	req *proto.ModifyVappVmCPUInfo) (*proto.ModifyVappVmCPUResult, error) {
+	return &proto.ModifyVappVmCPUResult{}, nil
+}
+
+func (m *VappVmGRPCServer) ModifyMemory(
+	ctx context.Context,
+	req *proto.ModifyVappVmMemoryInfo) (*proto.ModifyVappVmMemoryResult, error) {
+	return &proto.ModifyVappVmMemoryResult{}, nil
 }
 
 // DUMMY

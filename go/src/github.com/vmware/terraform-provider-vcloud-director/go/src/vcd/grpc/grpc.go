@@ -7,9 +7,9 @@
 package grpc
 
 import (
+	plugin "github.com/hashicorp/go-plugin"
 	"github.com/vmware/terraform-provider-vcloud-director/go/src/vcd/proto"
 	"golang.org/x/net/context"
-	plugin "github.com/hashicorp/go-plugin"
 )
 
 // GRPCClient is an implementation of KV that talks over RPC.
@@ -21,7 +21,7 @@ type GRPCClient struct {
 // Here is the gRPC server that GRPCClient talks to.
 type GRPCServer struct {
 	// This is the real implementation
-	Impl proto.PyVcloudProviderServer
+	Impl   proto.PyVcloudProviderServer
 	broker *plugin.GRPCBroker
 }
 

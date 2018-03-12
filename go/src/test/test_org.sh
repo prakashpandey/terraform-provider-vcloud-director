@@ -8,13 +8,8 @@ export TF_ACC=1
 export TF_LOG=TRACE
 
 export VCD_ALLOW_UNVERIFIED_SSL=true
-export VCD_IP="255.255.255.255"
-
-
-export VCD_USER="administrator"
-export VCD_PASSWORD="******"
-export VCD_ORG="SYSTEM"
-
+. ./test_setlogin.sh
+ 
 export TF_VAR_ORG_NAME="pcp_org_600"
 export TF_VAR_FULL_NAME="test_pcp_org_full_name"
 export TF_VAR_IS_ENABLED=true

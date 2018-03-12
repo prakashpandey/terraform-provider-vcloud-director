@@ -7,12 +7,11 @@
 package grpc
 
 import (
-	"net/rpc"
-
-	"google.golang.org/grpc"
-	"golang.org/x/net/context"
 	"github.com/hashicorp/go-plugin"
 	"github.com/vmware/terraform-provider-vcloud-director/go/src/vcd/proto"
+	"golang.org/x/net/context"
+	"google.golang.org/grpc"
+	"net/rpc"
 )
 
 // Handshake is a common handshake that is shared by plugin and host.
@@ -98,7 +97,7 @@ func (p *PyVcloudProviderPlugin) GRPCServer(broker *plugin.GRPCBroker, s *grpc.S
 	return nil
 }
 
-func (p *PyVcloudProviderPlugin) GRPCClient(ctx context.Context,broker *plugin.GRPCBroker, c *grpc.ClientConn) (interface{}, error) {
+func (p *PyVcloudProviderPlugin) GRPCClient(ctx context.Context, broker *plugin.GRPCBroker, c *grpc.ClientConn) (interface{}, error) {
 
 	return &GRPCClient{
 		client: proto.NewPyVcloudProviderClient(c),

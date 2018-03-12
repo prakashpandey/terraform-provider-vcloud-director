@@ -12,14 +12,11 @@ export TF_LOG=TRACE
 export TF_ACC=1
 export TF_LOG=TRACE
 
+
+. ./test_setlogin.sh
+
+
 export VCD_ALLOW_UNVERIFIED_SSL=true
-export VCD_IP="10.172.158.127"
-
-export VCD_USER="administrator"
-export VCD_PASSWORD="VMware1!"
-export VCD_ORG="SYSTEM"
-
-export TF_VAR_VDC_NAME="pcp_vdc_4000"
 export TF_VAR_PROVIDER_VDC="PVDC1"
 export TF_VAR_DESCRIPTION="PCP desc VDC"
 export TF_VAR_ALLOCATION_MODEL="AllocationVApp"

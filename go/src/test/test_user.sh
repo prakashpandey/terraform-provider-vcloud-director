@@ -13,11 +13,8 @@ export TF_ACC=1
 export TF_LOG=TRACE
 
 export VCD_ALLOW_UNVERIFIED_SSL=true
-export VCD_IP="255.255.255.255"
 
-export VCD_USER="acmeadmin"
-export VCD_PASSWORD="*******"
-export VCD_ORG="Acme"
+. ./test_setlogin.sh
 
 export TF_VAR_USER_NAME="pcp_pcp_google_4"
 export TF_VAR_USER_PASSWORD="123456"

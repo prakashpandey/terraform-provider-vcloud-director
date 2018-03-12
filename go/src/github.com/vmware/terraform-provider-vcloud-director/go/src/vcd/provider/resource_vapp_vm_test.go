@@ -30,6 +30,13 @@ func TestAccResourceVappVm(t *testing.T) {
 					testAccCheckCreateVappVm(),
 				),
 			},
+
+			resource.TestStep{
+				Config: testAccVappVm_basic + "\n" + testAccVappVm,
+				Check: resource.ComposeTestCheckFunc(
+					testAccCheckUpdateVappVm(),
+				),
+			},
 		},
 	})
 
@@ -45,7 +52,7 @@ func TestAccResourceVappVmFromVapp(t *testing.T) {
 		Steps: []resource.TestStep{
 
 			resource.TestStep{
-				Config: testAccVappVm_basic + "\n" + testAccVappVmFromVapp,
+				Config: testAccVappVm_basic + "\n" + testAccVappVmUpdate,
 				Check: resource.ComposeTestCheckFunc(
 					testAccCheckCreateVappVm(),
 				),
@@ -86,6 +93,20 @@ func testAccCheckCreateVappVm() resource.TestCheckFunc {
 		}
 
 		logging.Plog("__DONE_testAccCheckCreateVappVm__")
+		return nil
+	}
+}
+
+func testAccCheckUpdateVappVm() resource.TestCheckFunc {
+	return func(s *terraform.State) error {
+
+		logging.Plog("__INIT_testAccCheckUpdateVappVm__")
+
+		//targetVmName := os.Getenv("TF_VAR_TARGET_VM_NAME")
+		//targetVapp := os.Getenv("TF_VAR_TARGET_VAPP_NAME")
+		//targetVdc := os.Getenv("TF_VAR_TARGET_VAPP_VDC")
+
+		logging.Plog("__DONE_testAccCheckUpdateVappVm__")
 		return nil
 	}
 }
@@ -208,5 +229,17 @@ resource "vcloud-director_vapp_vm" "source_vapp_vm"{
 	ip_allocation_mode = "${var.VAPP_IP_ALLOCATION_MODE}"
 	hostname = "${var.HOST_NAME}"
 }
+`
 
+const testAccVappVmUpdate = `resource "vcloud-director_vapp_vm" "source_vapp_vm"{
+    target_vapp="${var.TARGET_VAPP_NAME}"
+    target_vdc="${var.TARGET_VAPP_VDC}"
+    target_vm_name="${var.TARGET_VM_NAME}"
+    source_vm_name="${var.SOURCE_VM_NAME}"
+    source_catalog_name="${var.SOURCE_CATALOG_NAME}"
+    source_template_name="${var.TEMPLATE_NAME}"
+    network = "${var.NETWORK}"
+    ip_allocation_mode = "${var.VAPP_IP_ALLOCATION_MODE}"
+    hostname = "${var.HOST_NAME}"
+}
 `
