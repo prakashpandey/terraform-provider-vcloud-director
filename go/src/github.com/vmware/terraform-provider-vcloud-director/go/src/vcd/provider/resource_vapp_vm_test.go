@@ -16,8 +16,8 @@ import (
 	"testing"
 )
 
-func TestAccResourceVappVm(t *testing.T) {
-	logging.Plog("__INIT__TestAccResourceVappVm")
+func TestAccResourceVappVmFromCatalog(t *testing.T) {
+	logging.Plog("__INIT__TestAccResourceVappVm_From_Catalog_")
 	resource.Test(t, resource.TestCase{
 		PreCheck:     func() { testAccPreCheck(t) },
 		Providers:    testAccProviders,
@@ -25,26 +25,19 @@ func TestAccResourceVappVm(t *testing.T) {
 		Steps: []resource.TestStep{
 
 			resource.TestStep{
-				Config: testAccVappVm_basic + "\n" + testAccVappVm,
+				Config: testAccVappVm_basic + "\n" + testAccVappVmCatalog,
 				Check: resource.ComposeTestCheckFunc(
 					testAccCheckCreateVappVm(),
-				),
-			},
-
-			resource.TestStep{
-				Config: testAccVappVm_basic + "\n" + testAccVappVm,
-				Check: resource.ComposeTestCheckFunc(
-					testAccCheckUpdateVappVm(),
 				),
 			},
 		},
 	})
 
-	logging.Plog("__DONE__TestAccResourceVappVm_")
+	logging.Plog("__DONE__TestAccResourceVappVm_From_Catalog_")
 }
 
 func TestAccResourceVappVmFromVapp(t *testing.T) {
-	logging.Plog("__INIT__TestAccResourceVappVm")
+	logging.Plog("__INIT__TestAccResourceVappVm_From_Vapp")
 	resource.Test(t, resource.TestCase{
 		PreCheck:     func() { testAccPreCheck(t) },
 		Providers:    testAccProviders,
@@ -52,7 +45,7 @@ func TestAccResourceVappVmFromVapp(t *testing.T) {
 		Steps: []resource.TestStep{
 
 			resource.TestStep{
-				Config: testAccVappVm_basic + "\n" + testAccVappVmUpdate,
+				Config: testAccVappVm_basic + "\n" + testAccVappVmFromVapp,
 				Check: resource.ComposeTestCheckFunc(
 					testAccCheckCreateVappVm(),
 				),
@@ -60,7 +53,7 @@ func TestAccResourceVappVmFromVapp(t *testing.T) {
 		},
 	})
 
-	logging.Plog("__DONE__TestAccResourceVappVm_")
+	logging.Plog("__DONE__TestAccResourceVappVm_From_Vapp")
 }
 
 func testAccCheckCreateVappVm() resource.TestCheckFunc {
@@ -93,20 +86,6 @@ func testAccCheckCreateVappVm() resource.TestCheckFunc {
 		}
 
 		logging.Plog("__DONE_testAccCheckCreateVappVm__")
-		return nil
-	}
-}
-
-func testAccCheckUpdateVappVm() resource.TestCheckFunc {
-	return func(s *terraform.State) error {
-
-		logging.Plog("__INIT_testAccCheckUpdateVappVm__")
-
-		//targetVmName := os.Getenv("TF_VAR_TARGET_VM_NAME")
-		//targetVapp := os.Getenv("TF_VAR_TARGET_VAPP_NAME")
-		//targetVdc := os.Getenv("TF_VAR_TARGET_VAPP_VDC")
-
-		logging.Plog("__DONE_testAccCheckUpdateVappVm__")
 		return nil
 	}
 }
@@ -146,65 +125,51 @@ func testAccCheckVappVmDestroy(s *terraform.State) error {
 }
 
 const testAccVappVm_basic = `
-
 provider "vcloud-director" {
   #value come from ENV VARIALES
 }
-
 variable "TARGET_VAPP_NAME" {
  type    = "string"
  default = "NOT DEFINED"
 }
-
 variable "TARGET_VAPP_VDC" {
  type    = "string"
  default = "NOT DEFINED"
 }
-
 variable "TARGET_VM_NAME" {
  type    = "string"
  default = "NOT DEFINED"
 }
-
-
 variable "SOURCE_VM_NAME" {
  type    = "string"
  default = "NOT DEFINED"
 }
-
 variable "SOURCE_CATALOG_NAME" {
  type    = "string"
  default = "NOT DEFINED"
 }
-
 variable "SOURCE_VAPP" {
  type    = "string"
  default = "NOT DEFINED"
 }
-
 variable "TEMPLATE_NAME" {
  type    = "string"
  default = "NOT DEFINED"
 }
-
 variable "NETWORK" {
  type    = "string"
  default = "NOT DEFINED"
 }
-
 variable "VAPP_IP_ALLOCATION_MODE" {
  type    = "string"
  default = "NOT DEFINED"
 }
-
 variable "HOST_NAME" {
  type    = "string"
  default = "NOT DEFINED"
 }
-
-
 `
-const testAccVappVm = `
+const testAccVappVmCatalog = `
 resource "vcloud-director_vapp_vm" "source_vapp_vm"{
     target_vapp="${var.TARGET_VAPP_NAME}"
     target_vdc="${var.TARGET_VAPP_VDC}"
@@ -216,7 +181,6 @@ resource "vcloud-director_vapp_vm" "source_vapp_vm"{
     ip_allocation_mode = "${var.VAPP_IP_ALLOCATION_MODE}"
     hostname = "${var.HOST_NAME}"
 }
-
 `
 const testAccVappVmFromVapp = `
 resource "vcloud-director_vapp_vm" "source_vapp_vm"{
@@ -228,18 +192,5 @@ resource "vcloud-director_vapp_vm" "source_vapp_vm"{
 	network = "${var.NETWORK}"
 	ip_allocation_mode = "${var.VAPP_IP_ALLOCATION_MODE}"
 	hostname = "${var.HOST_NAME}"
-}
-`
-
-const testAccVappVmUpdate = `resource "vcloud-director_vapp_vm" "source_vapp_vm"{
-    target_vapp="${var.TARGET_VAPP_NAME}"
-    target_vdc="${var.TARGET_VAPP_VDC}"
-    target_vm_name="${var.TARGET_VM_NAME}"
-    source_vm_name="${var.SOURCE_VM_NAME}"
-    source_catalog_name="${var.SOURCE_CATALOG_NAME}"
-    source_template_name="${var.TEMPLATE_NAME}"
-    network = "${var.NETWORK}"
-    ip_allocation_mode = "${var.VAPP_IP_ALLOCATION_MODE}"
-    hostname = "${var.HOST_NAME}"
 }
 `

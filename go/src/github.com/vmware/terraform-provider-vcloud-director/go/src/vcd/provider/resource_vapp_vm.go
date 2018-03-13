@@ -172,7 +172,7 @@ func resourceVappVmCreate(d *schema.ResourceData, m interface{}) error {
 			AllEulasAccepted:   allEulasAccepted,
 			IpAllocationMode:   ipAllocationMode,
 		}
-
+		logging.Plog(fmt.Sprintf("__Creating_VappVM_From_Catalog_ [ %v ]", createVappVmInfo))
 		res, err := provider.CreateFromCatalog(createVappVmInfo)
 
 		if err != nil {
@@ -180,7 +180,7 @@ func resourceVappVmCreate(d *schema.ResourceData, m interface{}) error {
 		}
 
 		if res.Created {
-			logging.Plog(fmt.Sprintf("VappVm [%+v]  created  ", targetVmName))
+			logging.Plog(fmt.Sprintf("VappVm [%+v]  created  from catalog ", targetVmName))
 			d.SetId(targetVmName)
 		}
 
@@ -202,7 +202,7 @@ func resourceVappVmCreate(d *schema.ResourceData, m interface{}) error {
 			AllEulasAccepted: allEulasAccepted,
 			IpAllocationMode: ipAllocationMode,
 		}
-
+		logging.Plog(fmt.Sprintf("__Creating_VappVM_From_Vapp_ [ %v ]", createVappVmInfo))
 		res, err := provider.CreateFromVapp(createVappVmInfo)
 
 		if err != nil {
@@ -210,7 +210,7 @@ func resourceVappVmCreate(d *schema.ResourceData, m interface{}) error {
 		}
 
 		if res.Created {
-			logging.Plog(fmt.Sprintf("VappVm [%+v]  created  ", targetVmName))
+			logging.Plog(fmt.Sprintf("VappVm [%+v]  created  from vapp ", targetVmName))
 			d.SetId(targetVmName)
 		}
 	}
