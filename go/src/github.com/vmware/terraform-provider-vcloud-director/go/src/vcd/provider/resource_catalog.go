@@ -27,12 +27,12 @@ func resourceCatalog() *schema.Resource {
 			},
 			"description": &schema.Schema{
 				Type:     schema.TypeString,
-				Required: false,
+				Optional: true,
 				ForceNew: false,
 			},
 			"shared": &schema.Schema{
 				Type:     schema.TypeBool,
-				Required: true,
+				Optional: true,
 				ForceNew: false,
 			},
 		},
