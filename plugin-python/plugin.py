@@ -90,16 +90,17 @@ class PyVcloudProviderServicer(
     def CreateCatalog(self, request, context):
         logging.info("=========================[%s]", request.description)
         logging.info("=========================[%s]", request.name)
-        return catalog.create(self.client, context, request.name, request.description,
-                              request.shared)
+        return catalog.create(self.client, context, request.name,
+                              request.description, request.shared)
 
     def DeleteCatalog(self, request, context):
         return catalog.delete(self.client, context, request.name)
-    
+
     def UpdateCatalog(self, request, context):
         logging.info("=========================[%s]", request.description)
         logging.info("=========================[%s]", request.name)
-        return catalog.update(self.client, context, request.old_name, request.name, request.description,
+        return catalog.update(self.client, context, request.old_name,
+                              request.name, request.description,
                               request.shared)
 
     def CatalogUploadMedia(self, request, context):
