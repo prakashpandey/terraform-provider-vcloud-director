@@ -76,11 +76,6 @@ func resourceVApp() *schema.Resource {
 				Optional: true,
 				ForceNew: false,
 			},
-			"accept_all_eulas": &schema.Schema{
-				Type:     schema.TypeBool,
-				Optional: true,
-				ForceNew: true,
-			},
 		},
 	}
 }
@@ -92,7 +87,7 @@ func getVAppId(d *schema.ResourceData) string {
 	return vappName
 }
 
-func getVAppInfo(d *schema.ResourceData) (string, string, string, string, string, string, string, int32, string, bool) {
+func getVAppInfo(d *schema.ResourceData) (string, string, string, string, string, string, string, int32, string) {
 	vAppName := d.Get("name").(string)
 	templateName := d.Get("template_name").(string)
 	catalogName := d.Get("catalog_name").(string)
@@ -102,8 +97,7 @@ func getVAppInfo(d *schema.ResourceData) (string, string, string, string, string
 	memory := d.Get("memory").(string)
 	cpu := int32(d.Get("cpu").(int))
 	storageProfile := d.Get("storage_profile").(string)
-	acceptAllEulas := d.Get("accept_all_eulas").(bool)
-	return vAppName, templateName, catalogName, vdc, network, ipAllocationMode, memory, cpu, storageProfile, acceptAllEulas
+	return vAppName, templateName, catalogName, vdc, network, ipAllocationMode, memory, cpu, storageProfile
 }
 
 func resourceVAppCreate(d *schema.ResourceData, m interface{}) error {
@@ -112,7 +106,7 @@ func resourceVAppCreate(d *schema.ResourceData, m interface{}) error {
 
 	provider := getProvider(m)
 
-	vAppName, templateName, catalogName, vdc, network, ipAllocationMode, memory, cpu, storageProfile, acceptAllEulas := getVAppInfo(d)
+	vAppName, templateName, catalogName, vdc, network, ipAllocationMode, memory, cpu, storageProfile := getVAppInfo(d)
 
 	readvAppInfo := proto.ReadVAppInfo{
 
@@ -143,7 +137,6 @@ func resourceVAppCreate(d *schema.ResourceData, m interface{}) error {
 		Memory:           memory,
 		Cpu:              cpu,
 		StorageProfile:   storageProfile,
-		AcceptAllEulas:   acceptAllEulas,
 	}
 
 	logging.Plog(fmt.Sprintf("__LOG__vAppInfo %#v", vAppInfo))
@@ -169,7 +162,7 @@ func resourceVAppCreate(d *schema.ResourceData, m interface{}) error {
 func resourceVAppRead(d *schema.ResourceData, m interface{}) error {
 
 	logging.Plog("__INIT__resourceVAppRead_ ")
-	vAppName, _, _, vdc, _, _, _, _, _, _ := getVAppInfo(d)
+	vAppName, _, _, vdc, _, _, _, _, _ := getVAppInfo(d)
 
 	vAppInfo := proto.ReadVAppInfo{
 
@@ -231,7 +224,7 @@ func resourceVAppUpdate(d *schema.ResourceData, m interface{}) error {
 
 func resourceVAppDelete(d *schema.ResourceData, m interface{}) error {
 	logging.Plog("__INIT__resourceVAppDelete_")
-	vAppName, _, _, vdc, _, _, _, _, _, _ := getVAppInfo(d)
+	vAppName, _, _, vdc, _, _, _, _, _ := getVAppInfo(d)
 
 	provider := getProvider(m)
 

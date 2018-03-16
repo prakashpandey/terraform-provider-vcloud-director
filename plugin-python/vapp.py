@@ -56,15 +56,12 @@ def create(client, context, vappInfo):
         network = None
         memory = None
         storage_profile = None
-        accept_all_eulas = False
         if vappInfo.network:
             network = vappInfo.network
         if vappInfo.memory:
             memory = vappInfo.memory
         if vappInfo.storage_profile:
             storage_profile = vappInfo.storage_profile
-        if vappInfo.accept_all_eulas:
-            accept_all_eulas = vappInfo.accept_all_eulas
 
         logging.info(
             "__LOG__ CREATE VAPP Params - MEMORY = [%s] NETWORK = [%s] storage_profile =[%s] ",
@@ -77,8 +74,7 @@ def create(client, context, vappInfo):
             network=network,
             memory=memory,
             cpu=vappInfo.cpu,
-            storage_profile=storage_profile,
-            accept_all_eulas=accept_all_eulas)
+            storage_profile=storage_profile)
 
         task = client.get_task_monitor().wait_for_status(
             task=result.Tasks.Task[0],
