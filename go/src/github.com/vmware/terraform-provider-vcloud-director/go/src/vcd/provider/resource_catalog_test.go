@@ -33,6 +33,25 @@ func TestAccResourceCatalogBasic(t *testing.T) {
 					testAccCheckCatalogCreate(),
 				),
 			},
+		},
+	})
+
+	logging.Plog("__DONE__TestAccResourceCatalog_")
+}
+
+func TestAccResourceCatalogAdvance(t *testing.T) {
+	logging.Plog("__INIT_TestAccResourceCatalog_")
+	resource.Test(t, resource.TestCase{
+		PreCheck:     func() { testAccPreCheck(t) },
+		Providers:    testAccProviders,
+		CheckDestroy: testAccCheckCatalogDestroy,
+		Steps: []resource.TestStep{
+			resource.TestStep{
+				Config: testAccCatalog_basic + testAccCatalog_create,
+				Check: resource.ComposeTestCheckFunc(
+					testAccCheckCatalogCreate(),
+				),
+			},
 			resource.TestStep{
 				Config: testAccCatalog_basic + testAccCatalog_unshared,
 				Check: resource.ComposeTestCheckFunc(
@@ -82,7 +101,7 @@ func testAccCheckCatalogCreate() resource.TestCheckFunc {
 			return fmt.Errorf("__ERROR__.... name do not match [expected: %v, found: %v]", name, catalog.Name)
 		}
 
-		desc := os.Getenv("TF_VAR_CATALOG_DESCRIPTION_1")
+		desc := os.Getenv("TF_VAR_CATALOG_DESCRIPTION_OLD")
 
 		if strings.Compare(catalog.Description, desc) != 0 {
 			return fmt.Errorf("ERROR.... Catalog  Description  NOT as expected")
@@ -104,7 +123,7 @@ func testAccCheckUpdateAllFileds() resource.TestCheckFunc {
 		logging.Plog("__INIT_testAccCheckUpdateAllFileds__")
 
 		name := os.Getenv("TF_VAR_CATALOG_NAME_NEW")
-		description := os.Getenv("TF_VAR_CATALOG_DESCRIPTION_2")
+		description := os.Getenv("TF_VAR_CATALOG_DESCRIPTION_NEW")
 		shared, _ := strconv.ParseBool(os.Getenv("TF_VAR_CATALOG_SHARED"))
 		shared = !shared
 
@@ -190,13 +209,13 @@ func testAccCheckCatalogDestroy(s *terraform.State) error {
 }
 
 const testAccCatalog_basic = `
-variable "CATALOG_DESCRIPTION_1" { 
+variable "CATALOG_DESCRIPTION_OLD" { 
 
  type    = "string"
  default = "NOT DEFINED" 
 }
 
-variable "CATALOG_DESCRIPTION_2" { 
+variable "CATALOG_DESCRIPTION_NEW" { 
 
  type    = "string"
  default = "NOT DEFINED" 
@@ -228,7 +247,7 @@ provider "vcloud-director" {
 const testAccCatalog_create = `
 resource "vcloud-director_catalog" "catalog1" {
         name    ="${var.CATALOG_NAME_OLD}"
-        description = "${var.CATALOG_DESCRIPTION_1}"
+        description = "${var.CATALOG_DESCRIPTION_OLD}"
         shared  = true
 }
 
@@ -236,7 +255,7 @@ resource "vcloud-director_catalog" "catalog1" {
 const testAccCatalog_shared = `
 resource "vcloud-director_catalog" "catalog1" {
         name    ="${var.CATALOG_NAME_OLD}"
-        description = "${var.CATALOG_DESCRIPTION_1}"
+        description = "${var.CATALOG_DESCRIPTION_OLD}"
         shared  = true
 }
 
@@ -245,7 +264,7 @@ resource "vcloud-director_catalog" "catalog1" {
 const testAccCatalog_unshared = `
 resource "vcloud-director_catalog" "catalog1" {
         name    ="${var.CATALOG_NAME_OLD}"
-        description = "${var.CATALOG_DESCRIPTION_1}"
+        description = "${var.CATALOG_DESCRIPTION_OLD}"
         shared  = false
 }
 
@@ -254,7 +273,7 @@ resource "vcloud-director_catalog" "catalog1" {
 const testAccCatalog_update_all_fileds = `
 resource "vcloud-director_catalog" "catalog1" {
         name    ="${var.CATALOG_NAME_NEW}"
-        description = "${var.CATALOG_DESCRIPTION_2}"
+        description = "${var.CATALOG_DESCRIPTION_NEW}"
         shared  = false
 }
 

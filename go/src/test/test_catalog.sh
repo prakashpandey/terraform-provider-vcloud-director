@@ -16,7 +16,6 @@ export TF_VAR_CATALOG_DESCRIPTION="accc_ description1"
 
 go test github.com/vmware/terraform-provider-vcloud-director/go/src/vcd/provider/  -v -run TestAccResourceCatalogBasic | grep --line-buffered -vE 'DEBUG|TRACE|terraform.|^$'
 
-
 #SEE EG BELOW
 #go test -run Foo     # Run top-level tests matching "Foo", such as "TestFooBar". 
 

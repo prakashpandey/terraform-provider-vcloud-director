@@ -14,7 +14,7 @@ from pyvcloud.vcd.org import Org
 
 from proto import pyvcloudprovider_pb2 as pyvcloudprovider_pb2
 from proto import pyvcloudprovider_pb2_grpc as pyvcloudprovider_pb2_grpc
-
+import grpc
 import requests
 import logging
 import inspect
